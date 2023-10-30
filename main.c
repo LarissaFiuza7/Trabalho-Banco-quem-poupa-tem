@@ -1,58 +1,14 @@
-#include <stdio.h>
-#include "biblioteca.h"
-// Luiz Fernando de Oliveira Lopes RA: 22.123.013-9
-// Larissa Santos Fiuza RA: 22.123.042-8
-// Cria a estrutura de tarefa, dando 3 parâmetros, priroidade, categoria e descrição
+// Lista todos os clientes
+void listarCliente(ListaDeClientes lt) {
+  if (lt.qtd == 0) {
+    printf("Não há clientes para serem listados.\n");
+    return;
+  }
 
-int main() {
-  ListaDeClientes clientes;
-  clientes.qtd = 0;
-  int sair = 0;
-
-  carregarCliente(&clientes, "Clientes.bin");
-
-
-  while (!sair) {
-    printf("\nMenu:\n");
-    printf("1. Cadastrar Cliente\n");
-    printf("2. Deletar Cliente\n");
-    printf("3. Listar Clientes\n");
-    printf("4. Debito\n");
-    printf("5. Deposito\n");
-    printf("6. Transferencia\n");
-    printf("7. Extrato\n");    
-    printf("8. Sair\n");
-    printf("Escolha uma opção: ");
-
-    char entrada[1000];
-    fgets(entrada, sizeof(entrada), stdin);
-    int opcao = atoi(entrada);
-
-    switch (opcao) {
-      case 1:
-        cadastrarCliente(&clientes);
-        salvarCliente(clientes, "Clientes.bin");
-
-        break;
-      
-      default:
-        printf("Opção inválida. Tente novamente.\n");
-      case 2:
-        if (clientes.qtd > 0) {
-        int cpf;
-        printf("Digite o CPF do cliente que será deletado: ");
-        scanf("%d", &cpf);
-        getchar(); // Limpa o caractere de nova linha pendente
-        deletarCliente(&clientes, cpf);
-        salvarCliente(clientes, "Clientes.bin");
-      } else {
-        printf("Não há clientes cadastrados. Nada para deletar.\n");
-      }
-      printf("Programa encerrado. \n");
-      return 0;
-    }
+  for (int i = 0; i < lt.qtd; i++) {
+    printf("\nCliente: %s\n", lt.clientes[i].nome);
+    printf("CPF: %s\n",lt.clientes[i].CPF);
+    printf("Tipo de conta: %s\n", lt.clientes[i].tipo_conta);
+    printf("Saldo: %d\n", lt.clientes[i].valor_inicial);
+  }
 }
-}
-
-
-
