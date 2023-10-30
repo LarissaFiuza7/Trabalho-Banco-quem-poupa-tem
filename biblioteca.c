@@ -48,7 +48,7 @@ void cadastrarCliente(ListaDeClientes *lt) {
     //Cadastra o tipo de conta do cliente
     printf("Digite o tipo de conta escolhido comum ou plus: ");
     fgets(novoCliente.tipo_conta, sizeof(novoCliente.tipo_conta), stdin);
-    novoCliente.tipo_conta[strlen(novoCliente.tipo_conta) - 1] = '\0'; 
+    novoCliente.tipo_conta[strlen(novoCliente.tipo_conta)] = '\0'; 
     int e;
     while ((e = getchar()) != '\n' && e != EOF) {
         // Descarta o caractere lido
@@ -128,37 +128,33 @@ int debitoCliente(ListaDeClientes *lt, const char *cpf, int senha, int debito) {
         return 0;
     }
 
-    if (strcmp(lt->clientes[index].tipo_conta, "Comum") == 0) {
-        if (lt->clientes[index].valor_inicial - debito < -1000) {
-            printf("Saldo insuficiente.\n");
-            return 0;
-        }
-    } else if (strcmp(lt->clientes[index].tipo_conta, "Plus") == 0) {
-        if (lt->clientes[index].valor_inicial - debito < -5000) {
-            printf("Saldo insuficiente.\n");
-            return 0;
-        }
+    if (strcmp(lt->clientes[index].tipo_conta, "Plus") == 0) {
+        lt->clientes[index].valor_inicial -= (debito +=(debito*0.03));
+    
+    }else {
+      lt->clientes[index].valor_inicial -= (debito +=(debito*0.05));
+    }
+  return 1;
     }
 
-    lt->clientes[index].valor_inicial -= debito;
-    printf("Débito realizado com sucesso.\n");
-    return 1;
-}
 
 //Função de Depósito
-void depositoCliente(ListaDeClientes *lt, int cpf, int deposito) {
-  char cpf_str[12]; 
-  snprintf(cpf_str, sizeof(cpf_str), "%d", cpf);
-  int i;
-  for (i = 0; i < lt->qtd; i++) {
-    if (strcmp(lt->clientes[i].CPF, cpf_str) == 0) {
-        lt->clientes[i].valor_inicial += deposito;
-        printf("Deposito realizado com sucesso.\n");
-        break;
+int depositoCliente(ListaDeClientes *lt, const char *cpf, int deposito) {
+    int i;
+    int index = -1;
+  
+    for (i = 0; i < lt->qtd; i++) {
+        if (strcmp(lt->clientes[i].CPF, cpf) == 0) {
+            index = i;
+            break;
+        }
     }
-}
-    if (i < 0) {
+
+    if (index == -1) {
         printf("CPF não encontrado.\n");
-        return;
+        return 0;
     }
+
+    lt->clientes[index].valor_inicial += deposito;
+    return 1;
 }
