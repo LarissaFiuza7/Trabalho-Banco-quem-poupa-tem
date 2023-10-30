@@ -29,6 +29,7 @@ int main() {
       case 1:
         cadastrarCliente(&clientes);
         salvarCliente(clientes, "Clientes.bin");
+        getchar(); // Limpa o caractere de nova linha pendente
         break;
       case 2:
         if (clientes.qtd > 0) {
@@ -41,35 +42,57 @@ int main() {
         } else {
           printf("Não há clientes cadastrados. Nada para deletar.\n");
         }
+        getchar(); // Limpa o caractere de nova linha pendente
         break;
       case 3:
         listarCliente(clientes);
+        getchar(); // Limpa o caractere de nova linha pendente
         break;
       case 4:
         if (clientes.qtd > 0) {
-          int cpf;
+          char cpf[12];
           int debito;
           int senha;
+
           printf("Digite o CPF do cliente a ser debitado: ");
-          scanf("%d", &cpf);
-          printf("Digite a senha do cliente: ");
-          scanf("%d", &senha);
-          getchar(); // Limpa o caractere de nova linha pendente
+          scanf("%s", cpf);
+
           printf("Digite o valor a ser debitado: ");
           scanf("%d", &debito);
+
           int resultado = debitoCliente(&clientes, cpf, senha, debito);
+
           if (resultado == 1) {
-            printf("Cliente debitado com sucesso.\n");
+              // Salvar o cliente após o débito bem-sucedido
+              salvarCliente(clientes, "Clientes.bin");
+              printf("Cliente debitado com sucesso.\n");
           } else {
-            printf("Cliente não encontrado ou senha incorreta.\n");
+              printf("Cliente não encontrado, senha incorreta ou saldo insuficiente.\n");
           }
-        } else {
-          printf("Nenhum cliente encontrado.\n");
+
+          return 0;
+          }
+        break;
+      case 5:
+      if (clientes.qtd > 0) {
+        int cpf;
+        int deposito;
+        printf("Digite o CPF do cliente: ");
+        scanf("%d", &cpf);
+        getchar(); // Limpa o caractere de nova linha pendente
+        printf("Digite o valor a ser depositado:");
+        scanf("%d", &deposito);
+        depositoCliente(&clientes, cpf, deposito);
+        salvarCliente(clientes, "Clientes.bin");
+        } else{
+        printf("Cliente não encontrado");
         }
+        getchar(); // Limpa o caractere de nova linha pendente
         break;
       case 8:
         printf("Programa encerrado.\n");
         sair = 1;
+        getchar(); // Limpa o caractere de nova linha pendente
         break;
       default:
         printf("Opção inválida. Tente novamente.\n");
