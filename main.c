@@ -53,15 +53,11 @@ int main() {
           char cpf[12];
           int debito;
           int senha;
-
           printf("Digite o CPF do cliente a ser debitado: ");
           scanf("%s", cpf);
-
           printf("Digite o valor a ser debitado: ");
           scanf("%d", &debito);
-
           int resultado = debitoCliente(&clientes, cpf, senha, debito);
-
           if (resultado == 1) {
               // Salvar o cliente após o débito bem-sucedido
               salvarCliente(clientes, "Clientes.bin");
@@ -69,35 +65,37 @@ int main() {
           } else {
               printf("Cliente não encontrado, senha incorreta ou saldo insuficiente.\n");
           }
-
-          return 0;
           }
+        getchar(); // Limpa o caractere de nova linha pendente
         break;
       case 5:
-      if (clientes.qtd > 0) {
-        int cpf;
-        int deposito;
-        printf("Digite o CPF do cliente: ");
-        scanf("%d", &cpf);
-        getchar(); // Limpa o caractere de nova linha pendente
-        printf("Digite o valor a ser depositado:");
-        scanf("%d", &deposito);
-        depositoCliente(&clientes, cpf, deposito);
-        salvarCliente(clientes, "Clientes.bin");
-        } else{
-        printf("Cliente não encontrado");
-        }
+        if (clientes.qtd > 0) {
+          char cpf[12];
+          int deposito;
+          printf("Digite o CPF do cliente que recebera o deposito: ");
+          scanf("%s", cpf);
+          getchar();
+          printf("Digite o valor a ser depositado: ");
+          scanf("%d", &deposito);
+          int resultado = depositoCliente(&clientes, cpf, deposito);
+          if (resultado == 1){
+            // Salvar o cliente após o débito bem-sucedido
+            salvarCliente(clientes, "Clientes.bin");
+            printf("Cliente recebeu o depósito com sucesso.\n");
+            } else {
+            printf("Cliente não encontrado, senha incorreta ou saldo insuficiente.\n");
+            }
+          }
         getchar(); // Limpa o caractere de nova linha pendente
         break;
       case 8:
-        printf("Programa encerrado.\n");
         sair = 1;
-        getchar(); // Limpa o caractere de nova linha pendente
         break;
-      default:
-        printf("Opção inválida. Tente novamente.\n");
+          default:
+            printf("Opção inválida. Tente novamente.\n");
+        }
     }
-  }
 
+  printf("Programa encerrado. \n");
   return 0;
 }
