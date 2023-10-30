@@ -69,3 +69,21 @@ void cadastrarCliente(ListaDeClientes *lt) {
     printf("O armazenamento está cheio. Não é possível cadastrar novos Clientes.\n");
   }
 }
+//Função Deletar Cliente
+int deletarCliente(ListaDeClientes *lt, int cpf) {
+  char cpf_str[12];
+  snprintf(cpf_str, sizeof(cpf_str), "%d", cpf);
+
+  for (int i = 0; i < lt->qtd; i++) {
+    if (strcmp(lt->clientes[i].CPF, cpf_str) == 0) {
+      printf("Cliente excluído com sucesso\n");
+      for (int j = i; j < lt->qtd - 1; j++) {
+        lt->clientes[j] = lt->clientes[j + 1];
+      }
+      lt->qtd--;
+      return 1;
+    }
+  }
+  printf("Cliente não encontrado\n");
+  return 0;
+}

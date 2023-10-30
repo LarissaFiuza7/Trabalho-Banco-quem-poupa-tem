@@ -20,4 +20,5 @@ typedef struct {
 void cadastrarCliente(ListaDeClientes *lt);
 void salvarCliente(ListaDeClientes lt, const char *cliente);
 void carregarCliente(ListaDeClientes *lt, const char *cliente);
+int deletarCliente(ListaDeClientes *lt, int cpf);
 #endif // PROJET_1_BIBLIOTECA_H
