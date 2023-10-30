@@ -37,11 +37,22 @@ int main() {
       
       default:
         printf("Opção inválida. Tente novamente.\n");
+      case 2:
+        if (clientes.qtd > 0) {
+        int cpf;
+        printf("Digite o CPF do cliente que será deletado: ");
+        scanf("%d", &cpf);
+        getchar(); // Limpa o caractere de nova linha pendente
+        deletarCliente(&clientes, cpf);
+        salvarCliente(clientes, "Clientes.bin");
+      } else {
+        printf("Não há clientes cadastrados. Nada para deletar.\n");
+      }
+      printf("Programa encerrado. \n");
+      return 0;
     }
-  }
-
-  printf("Programa encerrado. \n");
-  return 0;
 }
+}
+
 
 
