@@ -102,3 +102,43 @@ void listarCliente(ListaDeClientes lt) {
     printf("Saldo: %d\n", lt.clientes[i].valor_inicial);
   }
 }
+//Função de Debito
+int debitoCliente(ListaDeClientes *lt, int cpf, int senha, float debito) {
+  char cpf_str[12];
+  snprintf(cpf_str, sizeof(cpf_str), "%d", cpf);
+
+  int index = -1;
+
+  for (int i = 0; i < lt->qtd; i++) {
+    if (strcmp(lt->clientes[i].CPF, cpf_str) == 0) {
+      index = i;
+      break;
+    }
+  }
+
+  if (index == -1) {
+    printf("CPF não encontrado.\n");
+    return -1; // CPF não encontrado
+  }
+
+  if (lt->clientes[index].senha != senha) {
+    printf("Senha incorreta.\n");
+    return -2; // Senha incorreta
+  }
+
+  if (strcmp(lt->clientes[index].tipo_conta, "Comum") == 0) {
+    if (lt->clientes[index].valor_inicial - debito < -1000) {
+      printf("Saldo insuficiente.\n");
+      return -3; // Saldo insuficiente
+    }
+  } else if (strcmp(lt->clientes[index].tipo_conta, "Plus") == 0) {
+    if (lt->clientes[index].valor_inicial - debito < -5000) {
+      printf("Saldo insuficiente.\n");
+      return -3; // Saldo insuficiente
+    }
+  }
+
+  lt->clientes[index].valor_inicial -= debito;
+  printf("Débito realizado com sucesso.\n");
+  return 1; // Débito realizado com sucesso
+}
