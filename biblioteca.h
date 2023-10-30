@@ -21,5 +21,6 @@ void salvarCliente(ListaDeClientes lt, const char *cliente);
 void carregarCliente(ListaDeClientes *lt, const char *cliente);
 int deletarCliente(ListaDeClientes *lt, int cpf);
 void listarCliente(ListaDeClientes lt);
-int debitoCliente(ListaDeClientes *lt, int cpf, int senha, float debito); 
+int debitoCliente(ListaDeClientes *lt, const char *cpf, int senha, int debito);
+void depositoCliente(ListaDeClientes *lt, int cpf, int deposito);
 #endif // PROJET_1_BIBLIOTECA_H
