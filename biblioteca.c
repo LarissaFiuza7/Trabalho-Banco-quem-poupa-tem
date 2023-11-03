@@ -135,7 +135,7 @@ int debitoCliente(ListaDeClientes *lt, const char *cpf, int senha, int debito) {
       lt->clientes[index].valor_inicial -= (debito +=(debito*0.05));
     }
   return 1;
-    }
+}
 
 
 //Função de Depósito
@@ -155,6 +155,44 @@ int depositoCliente(ListaDeClientes *lt, const char *cpf, int deposito) {
         return 0;
     }
 
-    lt->clientes[index].valor_inicial += deposito;
-    return 1;
+  lt->clientes[index].valor_inicial += deposito;
+  return 1;
+}
+//Função de Transferência
+int transferencia(ListaDeClientes *lt, const char *cpf_origem, int senha, const char *cpf_rec, int valor){
+  int i;
+  int index = -1;
+  int j;
+
+  for (i = 0; i < lt->qtd; i++) {
+      if (strcmp(lt->clientes[i].CPF, cpf_origem) == 0) {
+          index = i;
+          break;
+      }
+  }
+  if (index == -1) {
+      printf("CPF não encontrado.\n");
+      return 0;
+  }
+  if (lt->clientes[index].senha != senha) {
+      printf("Senha incorreta.\n");
+      return 0;
+  }
+  
+  lt->clientes[index].valor_inicial -= valor;
+  
+  for (j = 0; j < lt->qtd; j++) {
+      if (strcmp(lt->clientes[j].CPF, cpf_rec) == 0) {
+          index = j;
+          break;
+      }
+  }
+  if (index == -1) {
+      printf("CPF destinatário não encontrado.\n");
+      return 0;
+  }
+  
+  lt->clientes[index].valor_inicial += valor;
+  return 1;
+  printf("Tranferência realizada com sucesso!");
 }
